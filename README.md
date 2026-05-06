@@ -87,13 +87,4 @@ Outputs:
   PublicDNS:
     Description: 'DNS Público da instância'
     Value: !GetAtt MyEC2Instance.PublicDnsName
-```
 
----
-
-### 🚀 Próximos Passos:
-1.  Suba esses arquivos para o seu **GitHub**.
-2.  Adicione um print do **CloudFormation Designer** na pasta `/images` para mostrar que você entende a visualização lógica.
-3.  No campo de entrega da DIO, use a descrição do projeto focando em **"Automatização e Segurança de Infraestrutura"**.
-
-**Está pronto para seguir ou quer ajustar algo neste template?**
