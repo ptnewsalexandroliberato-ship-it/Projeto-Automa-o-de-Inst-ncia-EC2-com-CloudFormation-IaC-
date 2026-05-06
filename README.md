@@ -1,42 +1,38 @@
-# Projeto-Automa-o-de-Inst-ncia-EC2-com-CloudFormation-IaC-
-Objetivo Demonstrar a aplicação de Infrastructure as Code (IaC) para o provisionamento automatizado de uma instância EC2, incluindo a configuração de um servidor web funcional e regras de segurança (Security Groups).
+# Projeto: Automação de Instância EC2 com CloudFormation (IaC)
 
-
-### 📂 Estrutura de Arquivos Proposta
-*   `/templates/network-and-ec2.yaml`: Template principal com a infraestrutura.
-*   `/scripts/user-data.sh`: Script de automação para configurar o servidor (Apache/Nginx).
-*   `README.md`: Documentação técnica.
+## 🎯 Objetivo
+Demonstrar a aplicação de **Infrastructure as Code (IaC)** para o provisionamento automatizado de uma instância EC2 na AWS, incluindo a configuração de um servidor web funcional e regras de segurança (Security Groups). Este projeto faz parte do desafio de laboratório da **DIO**.
 
 ---
 
-### 📝 Conteúdo para o `README.md` (Destaque DIO)
+### 📂 Estrutura do Repositório
+*   `/templates/network-and-ec2.yaml`: Template principal com a definição da infraestrutura.
+*   `/scripts/user-data.sh`: Script de automação para configuração do servidor (Apache).
+*   `README.md`: Documentação técnica do projeto.
 
-#### **Projeto: Automação de Instância EC2 com CloudFormation (IaC)**
+---
 
-**1. Objetivo**
-Demonstrar a aplicação de **Infrastructure as Code (IaC)** para o provisionamento automatizado de uma instância EC2, incluindo a configuração de um servidor web funcional e regras de segurança (Security Groups).
+### 📝 Detalhes do Projeto
 
-**2. Arquitetura da Stack**
-O template desenvolvido neste repositório realiza as seguintes ações:
-*   Provisiona uma instância **EC2 (Amazon Linux 2)**.
-*   Configura um **Security Group** permitindo tráfego HTTP (porta 80) e SSH (porta 22).
-*   Utiliza a seção **UserData** para automatizar a instalação do servidor Apache no boot da instância.
+#### **1. Arquitetura da Stack**
+O template desenvolvido neste repositório utiliza o AWS CloudFormation para realizar as seguintes ações:
+*   **Provisionamento de Instância:** Criação de uma instância EC2 utilizando Amazon Linux 2.
+*   **Segurança:** Configuração de um **Security Group** permitindo tráfego nas portas 80 (HTTP) e 22 (SSH).
+*   **Automação de Software:** Uso da seção **UserData** para instalar, iniciar e habilitar o servidor Apache (`httpd`) automaticamente no boot.
 
-**3. Tecnologias Utilizadas**
-*   **AWS CloudFormation**: Orquestração de recursos.
-*   **YAML**: Linguagem para escrita do template.
-*   **Bash Script**: Automação de setup pós-instalação.
+#### **2. Tecnologias Utilizadas**
+*   **AWS CloudFormation**: Orquestração e gerenciamento da infraestrutura.
+*   **YAML**: Linguagem utilizada para a escrita do template.
+*   **Bash Script**: Automação do setup pós-instalação via UserData.
 
-**4. Insights de Implementação**
-*   **Segurança:** Implementei o princípio de menor privilégio no Security Group, restringindo o acesso apenas às portas necessárias.
-*   **Escalabilidade e Reuso:** O template foi estruturado com parâmetros para permitir a escolha dinâmica do tipo de instância (ex: t2.micro vs t3.small) sem alterar o código base.
+#### **3. Insights de Implementação**
+*   **Segurança (Least Privilege):** O Security Group foi configurado para abrir apenas as portas estritamente necessárias para o funcionamento do servidor web e gerenciamento remoto.
+*   **Flexibilidade:** O uso de **Parameters** permite que o usuário escolha o tipo de instância no momento do deploy, facilitando o controle de custos.
+*   **Saídas Dinâmicas:** A seção **Outputs** fornece automaticamente o DNS público da instância, facilitando o acesso imediato após o provisionamento.
 
 ---
 
 ### 🛠️ Código do Template (`network-and-ec2.yaml`)
-
-Este código reflete exatamente o que a descrição do desafio pede:
-
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'DIO Challenge - Provisionamento de Servidor Web EC2'
@@ -72,7 +68,7 @@ Resources:
     Properties:
       InstanceType: !Ref InstanceType
       SecurityGroups: [ !Ref WebServerSecurityGroup ]
-      ImageId: ami-0c101f26f147fa7fd # Amazon Linux 2 (Verificar região)
+      ImageId: ami-0c101f26f147fa7fd # Amazon Linux 2 (Verificar Região)
       KeyName: !Ref KeyName
       UserData:
         Fn::Base64: !Sub |
@@ -85,6 +81,5 @@ Resources:
 
 Outputs:
   PublicDNS:
-    Description: 'DNS Público da instância'
+    Description: 'URL do Servidor Web'
     Value: !GetAtt MyEC2Instance.PublicDnsName
-
