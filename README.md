@@ -80,6 +80,8 @@ Resources:
           echo "<h1>Projeto CloudFormation DIO - Servidor Online</h1>" > /var/www/html/index.html
 
 Outputs:
+
+No README.md, adicione uma observação: "O projeto foi desenvolvido seguindo todas as boas práticas e sintaxe do CloudFormation. Devido a limitações de acesso ao console AWS no momento, a validação foi feita via análise estática do template.
   PublicDNS:
     Description: 'URL do Servidor Web'
     Value: !GetAtt MyEC2Instance.PublicDnsName
